@@ -6,6 +6,8 @@ const util = require("util");
 
 
 (async () => {
+
+
     const readFilePromise = util.promisify(fs.readFile);
     console.log("1");
     const data = await readFilePromise("./sample.txt", "utf-8");
