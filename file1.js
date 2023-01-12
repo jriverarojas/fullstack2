@@ -1,6 +1,7 @@
-const file1 = () => {
-    console.log("file1" + process.env.PORT);
+const cuadrado = (a) => {
+    a.num = a.num * a.num;
+    return a;
 }
-module.exports = file1;
+module.exports = cuadrado;
 
 
