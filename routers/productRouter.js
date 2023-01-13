@@ -1,21 +1,12 @@
 const express = require("express");
 const productRouter = express.Router();
-
+const { getAllProducts, addProduct } = require("../controllers/Product")
 productRouter
     .route("/")
-    .get((req, res) => {
-        res.status(200).json({
-            status: "ok",
-            action: "get all products"
-        });
-     })
-     .post((req, res) => {
-         res.status(200).json({
-            status: "ok",
-            action: "post a product",
-            params: req.body
-        })
-     });
+    .get(getAllProducts)
+    .post(addProduct);
+
+    
 productRouter
     .route("/:id")
     .get((req, res) => {
