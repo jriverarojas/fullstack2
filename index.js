@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
-const productRouter = require("./routers/productRouter")
+const mongoose = require("mongoose");
+const productRouter = require("./routers/productRouter");
 const app = express();
 app.use(express.json()); // req => body
 app.use(morgan('dev'));
@@ -14,6 +15,12 @@ app.use("/api/v1/product/", productRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`App running on port ${process.env.PORT}`);
+});
+mongoose.set('strictQuery', false);
+mongoose.connect(process.env.DB_URL, {}).then((con) => {
+    console.log("connected to mongo")
+}).catch((err) => {
+    
 })
 
 
