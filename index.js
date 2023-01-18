@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const Product = require("./modelsT/ProductModel");
+const { sequelize } = require("./modelsS");
 const productRouter = require("./routers/productRouter");
 const dataSource = require("./dataSource");
 const app = express();
@@ -33,8 +33,17 @@ dataSource
     .initialize()
     .then( async () => {
         console.log("connected to mysql from typeorm");
-        const allProducts = await Product.find();
-        console.log(allProducts);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+
+// SEQUELIZE CONNECTION
+sequelize
+    .authenticate()
+    .then( async () => {
+        console.log("connected to mysql from sequelize");
     })
     .catch((err) => {
         console.log(err);
