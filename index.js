@@ -34,7 +34,7 @@ dataSource
     .then( async () => {
         console.log("connected to mysql from typeorm");
         const allProducts = await Product.find();
-        //console.log(allProducts);
+        console.log(allProducts);
     })
     .catch((err) => {
         console.log(err);

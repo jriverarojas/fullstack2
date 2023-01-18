@@ -1,6 +1,6 @@
 const { EntitySchema }  = require("typeorm");
 const ProductModel = require("./ProductModel");
-module.export = new EntitySchema({
+module.exports = new EntitySchema({
     name: "Product",
     tableName: "products",
     target: ProductModel,

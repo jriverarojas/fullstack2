@@ -10,7 +10,7 @@ const dataSource = new typeorm.DataSource({
     entities: [
         require("./modelsT/Product")
     ],
-    synchronize: false,
+    synchronize: true,
     logging: false,
 });
 
