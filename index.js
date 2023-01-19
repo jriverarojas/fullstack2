@@ -15,6 +15,17 @@ app.use((req, res, next) => {
 
 app.use("/api/v1/product/", productRouter);
 
+app.all("*", (req, res, next) => {
+    throw new Error('route not found');
+});
+
+app.use((err, req, res, next) => {
+    res.status(400).json({
+        status: "error",
+        message: err.message,
+    });
+});
+
 app.listen(process.env.PORT, () => {
     console.log(`App running on port ${process.env.PORT}`);
 });
@@ -44,9 +55,6 @@ sequelize
     .authenticate()
     .then( async () => {
         console.log("connected to mysql from sequelize");
-        const prods = await Product.findAll({ include: {model: Purchase, as: "purchases"}});
-        console.log(prods);
-        //Purchase.sync({force:true});
     })
     .catch((err) => {
         console.log(err);
