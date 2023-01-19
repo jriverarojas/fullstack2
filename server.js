@@ -1,34 +1,16 @@
-const express = require("express");
-const morgan = require("morgan");
+
 const mongoose = require("mongoose");
 const { sequelize, Product, Purchase } = require("./modelsS");
-const productRouter = require("./routers/productRouter");
 const dataSource = require("./dataSource");
-const app = express();
-app.use(express.json()); // req => body
-app.use(morgan('dev'));
+const app = require("./app")
 
-app.use((req, res, next) => {
-    req.requestTime = new Date().toISOString();
-    next();
+
+process.on("uncaughException", (err) => {
+    console.log("uncaughException", err);
+    console.log("shutting down");
+    process.exit(1);
 });
 
-app.use("/api/v1/product/", productRouter);
-
-app.all("*", (req, res, next) => {
-    throw new Error('route not found');
-});
-
-app.use((err, req, res, next) => {
-    res.status(400).json({
-        status: "error",
-        message: err.message,
-    });
-});
-
-app.listen(process.env.PORT, () => {
-    console.log(`App running on port ${process.env.PORT}`);
-});
 mongoose.set('strictQuery', false);
 
 // MONGOOSE CONNECTION
@@ -58,11 +40,18 @@ sequelize
     })
     .catch((err) => {
         console.log(err);
-    })
+    });
 
 
 
+const server = app.listen(process.env.PORT, () => {
+    console.log(`App running on port ${process.env.PORT}`);
+});
 
-
-
-
+process.on("unhandledRejection", (err) => {
+    console.log("unhandledRejection", err);
+    console.log("shutting down");
+    server.close(() => {
+        process.exit(1)
+    });
+});
