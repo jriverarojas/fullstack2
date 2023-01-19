@@ -3,40 +3,32 @@ const {
 } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-    class Product extends Model {
+    class Purchase extends Model {
         static associate(models) {
-            Product.hasMany(models.Purchase, {
+            Purchase.belongsTo(models.Product, {
                 foreignKey: "productId",
-                as: "purchases",
-                onDelete: "RESTRICT"
+                as: "product",
             });
         }
     }
-    Product.init({
+    Purchase.init({
         _id: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        name: {
+        invoiceNumber: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        price: {
-            type: DataTypes.DOUBLE,
-            allowNull: false
-        },
-        unit: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        inventory: {
+        quantity: {
             type: DataTypes.INTEGER,
+            allowNull: false
         },
     }, {
         sequelize,
-        modelName: "Product",
-        tableName: "products",
+        modelName: "Purchase",
+        tableName: "purchases",
         timestamps: false
     });
-    return Product;
+    return Purchase;
 }
