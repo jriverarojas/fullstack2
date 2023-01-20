@@ -2,7 +2,7 @@ const Product = require("../models/Product");
 const catchAsync = require("../utils/catchAsync");
 
 const getAllProducts = catchAsync(async (req, res) => {
-    const products = await Product.find(8);
+    const products = await Product.find();
     
     res.status(200).json({
         status: "ok",
